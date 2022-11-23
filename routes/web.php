@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\LibraryController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Writers;
@@ -21,12 +22,20 @@ Route::get('/index', [LibraryController::class, 'index']);
 
 Route::get('/index/{writer}', [LibraryController::class, 'show']);
 
+Route::resource('books', BookController::class)->middleware('admin');
+
 Route::get('/tentangkita', [LibraryController::class, 'about']);
 
 Route::get('/kontakkita', [LibraryController::class, 'contact']);
+
+Route::get('/admin', function () {
+    return view('admin/index', [
+        "pagetitle" => 'Admin'
+    ]);
+})->middleware(['admin']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

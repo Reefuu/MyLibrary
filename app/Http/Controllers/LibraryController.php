@@ -15,17 +15,19 @@ class LibraryController extends Controller
                 "pagetitle" => "Writers",
                 "maintitle" => "Writers in My Library",
                 "writers" => Writer::where('name', 'like', '%' . $request->search . '%')->orwhere('contact', 'like', '%' . $request->search . '%')->paginate(),
-                "books" => Book::whereRelation('writer', 'name', 'like', '%' . $request->search . '%')->get()
+                "books" => Book::whereRelation('writer', 'name', 'like', '%' . $request->search . '%')->paginate()
             ]);
         } else {
             return view('index', [
                 "pagetitle" => "Writers",
                 "maintitle" => "Writers in My Library",
                 "writers" => Writer::paginate(10),
-                "books" => Book::all()
+                "books" => Book::paginate(10)
             ]);
         }
     }
+
+    
 
     public function show(Writer $writer)
     {

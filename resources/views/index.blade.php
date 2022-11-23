@@ -46,6 +46,10 @@
 
     <h1>Books</h1>
 
+    @if (Auth::check() && Auth::user()->status == 'admin')
+        <a href="{{ route('books.create') }}" class="btn btn-outline-primary">Create Book</a>
+    @endif
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -53,6 +57,7 @@
                 <th>Title</th>
                 <th>Synopsis</th>
                 <th>Writer Name</th>
+                <th>Cover Photo</th>
             </tr>
         </thead>
         <tbody>
@@ -62,6 +67,9 @@
                     <td>{{ $book['title'] }}</td>
                     <td>{{ $book['synopsis'] }}</td>
                     <td>{{ $book->writer->name }}</td>
+                    <td>
+                        <img src="pictures/{{ $book['coverphoto'] }}" style="width: 100px; height: 100px">
+                    </td>
                 </tr>
             @endforeach
         </tbody>

@@ -17,8 +17,9 @@ class WriterFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>$this->faker->name,
-            'country'=>$this->faker->country,
+            'name' => $this->faker->name,
+            'country' => $this->faker->country,
+            'contact' => $this->faker->phoneNumber,
         ];
     }
 }

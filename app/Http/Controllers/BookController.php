@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Models\Writer;
 
 class BookController extends Controller
 {
@@ -25,7 +26,10 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('createbook', [
+            "pagetitle" => 'Create Book',
+            "writers" => Writer::all()
+        ]);
     }
 
     /**
@@ -36,7 +40,21 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        //
+
+        $this->validate($request, [
+            "title" => 'required|string|max:155',
+            "synopsis" => 'required',
+            "coverphoto" => 'required|image',
+        ]);
+
+        Book::create([
+            "title" => $request->title,
+            "synopsis" => $request->synopsis,
+            "coverphoto" => $request->coverphoto,
+            "writer_id" => $request->writer_id,
+        ]);
+
+        return redirect('/');
     }
 
     /**

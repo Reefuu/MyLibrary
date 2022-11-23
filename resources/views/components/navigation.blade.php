@@ -18,6 +18,13 @@
                 </li>
                 <li class="nav-item">
                     @auth
+                        @if (auth()->user()->status == 'admin')
+                            <a class="nav-link" href="/admin">Admin</a>
+                        @endif
+                    @endauth
+                </li>
+                <li class="nav-item">
+                    @auth
                         <form action="/logout" method="POST">
                             @csrf
                             <button class="btn" type="submit">Logout</button>

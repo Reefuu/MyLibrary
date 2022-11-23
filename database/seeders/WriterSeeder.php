@@ -21,15 +21,12 @@ class WriterSeeder extends Seeder
         $fakerUS = Factory::create('en_US');
 
         Writer::factory(33)->create([
-            'contact' => $fakerID->phoneNumber(),
             'photo' => 'hoshi.jpg',
         ]);
         Writer::factory(33)->create([
-            'contact' => $fakerFR->phoneNumber(),
             'photo' => 'jisoo.jpg',
         ]);
         Writer::factory(34)->create([
-            'contact' => $fakerUS->phoneNumber(),
             'photo' => 'bright.jpg',
         ]);
     }

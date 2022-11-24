@@ -22,12 +22,12 @@ class LibraryController extends Controller
                 "pagetitle" => "Writers",
                 "maintitle" => "Writers in My Library",
                 "writers" => Writer::paginate(10),
-                "books" => Book::paginate(10)
+                "books" => Book::paginate(1000)
             ]);
         }
     }
 
-    
+
 
     public function show(Writer $writer)
     {

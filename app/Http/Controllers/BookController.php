@@ -50,7 +50,7 @@ class BookController extends Controller
         Book::create([
             "title" => $request->title,
             "synopsis" => $request->synopsis,
-            "coverphoto" => $request->coverphoto,
+            "coverphoto" => $request->file('coverphoto')->store('coverphoto', 'public'),
             "writer_id" => $request->writer_id,
         ]);
 
@@ -74,9 +74,12 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit(Book $book)
+    public function edit($id)
     {
-        //
+        return view('updateBook', [
+            "book" => Book::findOrFail($id),
+            "pagetitle" => 'Update Book',
+        ]);
     }
 
     /**
@@ -86,9 +89,28 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBookRequest $request, Book $book)
+    public function update(UpdateBookRequest $request, $id)
     {
-        //
+        $book = Book::findOrFail($id);
+
+
+        if ($request->file('coverphoto')) {
+            unlink('storage/' . $book->coverphoto);
+            $book->update([
+                "title" => $request->title,
+                "synopsis" => $request->synopsis,
+                "coverphoto" => $request->file('coverphoto')->store('coverphoto', 'public'),
+            ]);
+        } else {
+            $book->update([
+                "title" => $request->title,
+                "synopsis" => $request->synopsis,
+            ]);
+        }
+
+
+
+        return redirect('/');
     }
 
     /**
@@ -97,8 +119,12 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
-        //
+        $book = Book::findOrFail($id);
+
+        $book->delete();
+
+        return redirect("/");
     }
 }

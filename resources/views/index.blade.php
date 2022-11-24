@@ -58,6 +58,11 @@
                 <th>Synopsis</th>
                 <th>Writer Name</th>
                 <th>Cover Photo</th>
+                @if (Auth::check() && Auth::user()->status == 'admin')
+                    <th>
+                        Action
+                    </th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -68,8 +73,24 @@
                     <td>{{ $book['synopsis'] }}</td>
                     <td>{{ $book->writer->name }}</td>
                     <td>
-                        <img src="pictures/{{ $book['coverphoto'] }}" style="width: 100px; height: 100px">
+                        <img src="{{ asset('storage/' . $book->coverphoto) }}" style="width: 100px; height: 100px">
                     </td>
+                    @if (Auth::check() && Auth::user()->status == 'admin')
+                        <td>
+                            <div class="mt-2">
+                                <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary">Update</a>
+                            </div>
+                            <div class="mt-2">
+                                <form action="{{ route('books.destroy', $book->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>
